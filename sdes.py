@@ -115,5 +115,33 @@ def SDES(key, block):
 
     print("")
     print("Texto Cifrado: " + cipherBlock)
+    print("")
+    return cipherBlock
 
-SDES("1010000010", "11010111")
+def SDES_Decryption(key, cipherBlock):
+    print("--- SDES Descriptação ---")
+    print("Texto Cifrado: " + cipherBlock)
+    print("Chave Inicial: " + key)
+    print("")
+    K1, K2  = GenKeys(key)
+    keys = [K2, K1]
+
+    print("")
+    currentBlock = FinalPerm(cipherBlock)
+
+    print("")
+    print("RODADAS DE FEISTEL")
+    L = currentBlock[:4]
+    R = currentBlock[4:]
+    for round in range(2):
+        print("Round " + str(round+1))
+        L, R = FeistelRound(L, R, keys[round])
+    permBlock = L + R
+
+    print("")
+    block = InitialPerm(permBlock)
+
+    print("")
+    print("Texto em Claro: " + block)
+
+SDES_Decryption("1010000010", SDES("1010000010", "11010111"))
