@@ -90,24 +90,25 @@ def FeistelRound(L, R, key):
     print("R final: " + XOR)
     return R, XOR
 
+
 def SDES(key, block):
     print("--- SDES ---")
     print("Texto em Claro: " + block)
     print("Chave Inicial: " + key)
     print("")
     K1, K2  = GenKeys(key)
-    keys = [K1, K2]
+    subkeys = [K1, K2]
 
     print("")
     permBlock = InitialPerm(block)
 
     print("")
     print("RODADAS DE FEISTEL")
-    L = permBlock[:4]
-    R = permBlock[4:]
+    R = permBlock[:4]
+    L = permBlock[4:]
     for round in range(2):
         print("Round " + str(round+1))
-        L, R = FeistelRound(L, R, keys[round])
+        L, R = FeistelRound(L, R, subkeys[round])
     currentBlock = L + R
 
     print("")
@@ -127,19 +128,19 @@ def SDES_Decryption(key, cipherBlock):
     keys = [K2, K1]
 
     print("")
-    currentBlock = FinalPerm(cipherBlock)
+    currentBlock = InitialPerm(cipherBlock) # inverso da permutação final = permutação inicial
 
     print("")
     print("RODADAS DE FEISTEL")
-    L = currentBlock[:4]
-    R = currentBlock[4:]
+    R = currentBlock[:4] # R inicial = L final
+    L = currentBlock[4:] # L inicial = R final
     for round in range(2):
         print("Round " + str(round+1))
         L, R = FeistelRound(L, R, keys[round])
-    permBlock = L + R
+    permBlock = R + L
 
     print("")
-    block = InitialPerm(permBlock)
+    block = FinalPerm(permBlock) # inverso da permutação inicial = permutação final
 
     print("")
     print("Texto em Claro: " + block)
