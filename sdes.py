@@ -91,7 +91,7 @@ def FeistelRound(L, R, key):
     return R, XOR
 
 
-def SDES_Encryption(key, block):
+def SDESEncryption(key, block):
     print("--- SDES ---")
     print("Texto em Claro: " + block)
     print("Chave Inicial: " + key)
@@ -119,7 +119,7 @@ def SDES_Encryption(key, block):
     print("")
     return cipherBlock
 
-def SDES_Decryption(key, cipherBlock):
+def SDESDecryption(key, cipherBlock):
     print("--- SDES Descriptação ---")
     print("Texto Cifrado: " + cipherBlock)
     print("Chave Inicial: " + key)
@@ -145,4 +145,4 @@ def SDES_Decryption(key, cipherBlock):
     print("")
     print("Texto em Claro: " + block)
 
-SDES_Decryption("1010000010", SDES("1010000010", "11010111"))
+SDESDecryption("1010000010", SDESEncryption("1010000010", "11010111"))
